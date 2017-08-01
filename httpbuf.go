@@ -53,7 +53,7 @@ func (b Buffer) ReadRequest(r *http.Request) error {
 func (b Buffer) ReadResponse(r *http.Response) error {
 	b.Buffer.Reset()
 	defer r.Body.Close()
-	_, err := b.Buffer.ReadFrom(r.Body)
+	_, err := b.Buffer.ReadFrom(limited(r.Body, b.limit))
 	if err != nil {
 		return err
 	}
