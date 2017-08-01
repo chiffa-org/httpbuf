@@ -61,14 +61,10 @@ func (b Buffer) ReadResponse(r *http.Response) error {
 	return nil
 }
 
-// ReadDo accepts result of http.Client.Do and similar methods,
-// takes care about closing response body
+// ReadDo accepts result of http.Client.Do and similar methods
 // and proceeds with Buffer.ReadResponse in case of nil error.
 func (b Buffer) ReadDo(r *http.Response, err error) (*http.Response, error) {
 	if err != nil {
-		if r != nil && r.Body != nil {
-			r.Body.Close()
-		}
 		return r, err
 	}
 	return r, b.ReadResponse(r)
